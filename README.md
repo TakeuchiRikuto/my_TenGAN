@@ -7,8 +7,8 @@ The paper has been accepted by [AISTATS 2024](https://). ![Overview of TenGAN](h
 First, download the code.  
 Then, execute the following command:
 ```
-$ conda env create -n spotgan_env -f env.yml
-$ source activate spotgan_env
+$ conda env create -n tengan_env -f env.yml
+$ source activate tengan_env
 ```
 Next, unzip the **DRD2_score.sav.zip** to  **DRD2_score.sav**.
 
