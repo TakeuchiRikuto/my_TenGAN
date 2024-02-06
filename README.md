@@ -4,103 +4,59 @@ A PyTorch implementation of "TenGAN: Pure Transformer Encoders Make an Efficient
 The paper has been accepted by [AISTATS 2024](https://). ![Overview of TenGAN](https://github.com/naruto7283/TenGAN/blob/main/tengan_overview.png)
 
 ## Installation
-First, download the code.  
-Then, execute the following command:
+Execute the following commands:
 ```
 $ conda env create -n tengan_env -f env.yml
 $ source activate tengan_env
 ```
-Next, unzip the **DRD2_score.sav.zip** to  **DRD2_score.sav**.
-
 
 ## File Description
 
-  - **datasets:** contains the original datasets and preprocessed datasets. Each dataset contains three columns, separated by ";" into scaffolds, decorations, and SMILES strings.
-	  - QM9_10k_LEN_3.csv
-	  - ZINC_10k_LEN_10.csv
-  - **results:** all generated datasets, saved models, and experimental results are saved in this folder.
-	  - **save_models:** all training results, pre-trained and trained filler and discriminator models are saved in this folder.
-	  - **test:** all test results are saved in this folder.
+  - **dataset:** contains the training datasets. Each dataset contains only one column of SMILES strings.
+	  - QM9.csv
+	  - ZINC.csv
+   
+  - **res:** all generated datasets, saved models, and experimental results are saved in this folder.
+	- save_models: all training results, pre-trained and trained filler and discriminator models are saved in this folder.
 
+	- main.py: definite all hyper-parameters, pretraining of the generator, pretraining of the discriminator, adversarial training of the TenGAN and Ten(W)GAN.
+		
+	- mol_metrics.py: definite the vocabulary, tokenization of SMILES strings, and all the objective functions of the chemical properties.	
+
+	- data_iter.py: load data for the generator and discriminator.
+
+	- generator.py: definite the generator.
+
+	- discriminator.py: definite the discriminator.
+
+	- rollout.py: definite the Monte Carlo method.
+
+	- utils.py: definite the performance evaluation methods of the generated molecules, such as the validity, uniqueness, novelty, and diversity. 
+
+## Available Chemical Properties at Present:
+	- solubility
+	- druglikeness
+	- synthesizability
+ 
 ## Experimental Reproduction
 
-  - SpotGAN on the QM9 dataset with drug-likeness as the optimized property:
-  ``` 
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train
+  - TenGAN on the ZINC dataset with drug-likeness as the optimized property:
   ```
-  - SpotGAN on the QM9 dataset with solubility as the optimized property:
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --properties 'solubility'
-  ```
-  - SpotGAN on the QM9 dataset with synthesizability as the optimized property:
-  ```  
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --properties 'synthesizability'
-  ```
-  - SpotGAN on the ZINC dataset with drug-likeness as the optimized property:
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --dataset_name 'ZINC_10k' --dec_min_len 10 --filler_epochs 200 --decoration_max_len 50 --filler_d_model 256 --filler_max_lr 1e-4 --filler_optimizer 'Adam' --adv_epochs 50
-  ```
-  - SpotGAN on the ZINC dataset with solubility as the optimized property:
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --dataset_name 'ZINC_10k' --dec_min_len 10 --filler_epochs 200 --decoration_max_len 50 --filler_d_model 256 --filler_max_lr 1e-4 --filler_optimizer 'Adam' --adv_epochs 50 --properties 'solubility'
-  ```	
-  - SpotGAN on the ZINC dataset with synthesizability as the optimized property:
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --dataset_name 'ZINC_10k' --dec_min_len 10 --filler_epochs 200 --decoration_max_len 50 --filler_d_model 256 --filler_max_lr 1e-4 --filler_optimizer 'Adam' --adv_epochs 50 --properties 'synthesizability'
-  ```
-  - SpotWGAN on the QM9 dataset with drug-likeness as the optimized property:
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --dis_wgan --dis_minibatch --dis_max_lr 1e-4
-  ```
-  - SpotWGAN on the QM9 dataset with solubility as the optimized property:
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --dis_wgan --dis_minibatch --properties 'solubility' --dis_max_lr 1e-4
-  ```
-  - SpotWGAN on the QM9 dataset with synthesizability as the optimized property:
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --dis_wgan --dis_minibatch --properties 'synthesizability' --dis_max_lr 1e-4
-  ```
-  - SpotWGAN on the ZINC dataset with drug-likeness as the optimized property:
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --dis_wgan --dis_minibatch --dataset_name 'ZINC_10k' --dec_min_len 10 --filler_epochs 200 --decoration_max_len 50 --filler_optimizer 'Adam' --filler_d_model 256 --filler_max_lr 1e-4 --dis_max_lr 1e-4 --adv_epochs 50
-  ```
-  - SpotWGAN on the ZINC dataset with solubility as the optimized property:
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --dis_wgan --dis_minibatch --dataset_name 'ZINC_10k' --dec_min_len 10 --filler_epochs 200 --decoration_max_len 50 --filler_optimizer 'Adam' --filler_d_model 256 --filler_max_lr 1e-4 --dis_max_lr 1e-4 --adv_epochs 50 --properties 'solubility'
-  ```
-  - SpotWGAN on the ZINC dataset with synthesizability as the optimized property:
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --dis_wgan --dis_minibatch --dataset_name 'ZINC_10k' --dec_min_len 10 --filler_epochs 200 --decoration_max_len 50 --filler_optimizer 'Adam' --filler_d_model 256 --filler_max_lr 1e-4 --dis_max_lr 1e-4 --adv_epochs 50 --properties 'synthesizability'
-  ```
-
-## Case Studies on Optimization of Bioactivity (BIO)
-  
-  - Training process on the ZINC dataset using SpotGAN
-  ```
-  $ python main.py --filler_pretrain --dis_pretrain --adversarial_train --dataset_name 'ZINC_10k' --dec_min_len 10 --filler_epochs 200 --decoration_max_len 50 --filler_d_model 256 --filler_max_lr 1e-4 --filler_optimizer 'Adam' --adv_epochs 50 --properties 'DRD2'
-  ```
-  - Test process on the ZINC dataset using SpotGAN: we provide five scaffolds and generate novel molecules with high biological activities on them. The scaffold names can be set to A1, A2, B1, B2, B3, C1, C2, D1, D2, D3, D4, E1, and E2. Numbers represent the number of attachment points on the given scaffold. Experimental results can be reproduced using A2, B3, C2, D4, and E2.
-  ```
-  $ python main.py --test --scaffold_name 'A2'
-  $ python main.py --test --scaffold_name 'B3'
-  $ python main.py --test --scaffold_name 'C2'
-  $ python main.py --test --scaffold_name 'D4'
-  $ python main.py --test --scaffold_name 'E2'
+  $ python main.py
   ```
   
 ## Citation
   ```
-  C. Li and Y. Yamanishi (2023). SpotGAN: A reverse-transformer GAN generates scaffold-constrained molecules with property optimization. ECML-PKDD 2023.
+  C. Li and Y. Yamanishi (2024). TenGAN: Pure transformer encoders make an efficient discrete GAN for de novo molecular generation. AISTATS 2024.
   ```
   
   BibTeX format:
   ```
-  @inproceedings{li2023spotgan,
-  title={SpotGAN: A Reverse-Transformer GAN Generates Scaffold-Constrained Molecules with Property Optimization},
+  @inproceedings{li2024tengan,
+  title={TenGAN: Pure Transformer Encoders Make an Efficient Discrete GAN for De Novo Molecular Generation},
   author={Li, Chen and Yamanishi, Yoshihiro},
-  booktitle={Joint European Conference on Machine Learning and Knowledge Discovery in Databases},
-  pages={323--338},
-  year={2023},
-  organization={Springer}
-}
+  booktitle={27th International Conference on Artificial Intelligence and Statistics (AISTATS)},
+  volume={?},
+  year={2024}
+  }
   ```
