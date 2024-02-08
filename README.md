@@ -56,7 +56,7 @@ $ source activate tengan_env
   title={TenGAN: Pure Transformer Encoders Make an Efficient Discrete GAN for De Novo Molecular Generation},
   author={Li, Chen and Yamanishi, Yoshihiro},
   booktitle={27th International Conference on Artificial Intelligence and Statistics (AISTATS)},
-  volume={?},
+  volume={２３８},
   year={2024}
   }
   ```
