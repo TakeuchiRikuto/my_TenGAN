@@ -33,7 +33,7 @@ parser.add_argument('--batch_size', type=int, default=64, help='the batch size f
 
 # ===========================
 # Generator
-parser.add_argument('--gen_pretrain:', action='store_true', help='whether pretrain the dataset')
+parser.add_argument('--gen_pretrain', action='store_true', help='whether pretrain the dataset')
 parser.add_argument('--generated_num', type=int, default=10000, help='generate size of the negative file: 5000 for QM9, 10000 for ZINC')
 parser.add_argument('--gen_train_size', type=int, default=9600, help='the size of training data: 4800 for QM9, 9600 for ZINC')
 parser.add_argument('--gen_num_encoder_layers', type=int, default=4, help='the number of transformer encoder layers')

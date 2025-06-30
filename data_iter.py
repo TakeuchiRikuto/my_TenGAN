@@ -73,11 +73,11 @@ class GenDataLoader(LightningDataModule):
     def train_dataloader(self):
         dataset = GenDataset(self.train_data, self.tokenizer)
         # pin_memory=True: speed the dataloading, num_workers: multithreading for dataloading
-        return DataLoader(dataset, batch_size=self.batch_size, pin_memory=True, collate_fn=self.custom_collate_and_pad, num_workers=40) 
+        return DataLoader(dataset, batch_size=self.batch_size, pin_memory=True, collate_fn=self.custom_collate_and_pad, num_workers=0) 
     
     def val_dataloader(self):
         dataset = GenDataset(self.val_data, self.tokenizer)
-        return DataLoader(dataset, batch_size=self.batch_size, pin_memory=True, collate_fn=self.custom_collate_and_pad, shuffle=False, num_workers=40)
+        return DataLoader(dataset, batch_size=self.batch_size, pin_memory=True, collate_fn=self.custom_collate_and_pad, shuffle=False, num_workers=0)
 
 
 # ============================================================================
